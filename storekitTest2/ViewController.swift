@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import StoreKit
 
 class ViewController: UIViewController {
+    
+    private var productIdentifiers = ["productIdentifiers1"]
     
     private let purchaseButton: UIButton = {
         let button = UIButton()
@@ -17,6 +20,13 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(purchaseButtonPressed), for: .touchUpInside)
         return button
     }()
+    
+    private var priceText: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+        textField.textAlignment = .center
+        return textField
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +34,9 @@ class ViewController: UIViewController {
         
         purchaseButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(purchaseButton)
+        
+        priceText.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(priceText)
         
         let purchaseButtonConstraints = [
             purchaseButton.heightAnchor.constraint(equalToConstant: 50),
@@ -34,7 +47,29 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate(purchaseButtonConstraints)
         
+        let priceTextConstraints = [
+            priceText.heightAnchor.constraint(equalToConstant: 50),
+            priceText.widthAnchor.constraint(equalToConstant: 150),
+            priceText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            priceText.topAnchor.constraint(equalTo: view.topAnchor, constant: 50)
+        ]
         
+        NSLayoutConstraint.activate(priceTextConstraints)
+        
+    }
+    
+    func displayToTextOfPrice() {
+        ProductManager.request(productIdentifiers: productIdentifiers, completion: { [weak self] (products: [SKProduct], error: Error?) in
+            
+            guard error != nil else {
+                return
+            }
+            
+            for product in products {
+                let priceString = product.localizedPrice
+                print(priceString!)
+            }
+        })
     }
     
     @objc func purchaseButtonPressed() {
