@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D2C4EBE24CA887000F22BDC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D2C4EBD24CA887000F22BDC /* StoreKit.framework */; };
 		8D8E391224C806A700DC5196 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E391124C806A700DC5196 /* AppDelegate.swift */; };
 		8D8E391424C806A700DC5196 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E391324C806A700DC5196 /* SceneDelegate.swift */; };
 		8D8E391624C806A700DC5196 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E391524C806A700DC5196 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D2C4EBD24CA887000F22BDC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8D8E390E24C806A700DC5196 /* storekitTest2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = storekitTest2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D8E391124C806A700DC5196 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D8E391324C806A700DC5196 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,17 +37,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D2C4EBE24CA887000F22BDC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D2C4EBC24CA887000F22BDC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8D2C4EBD24CA887000F22BDC /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8D8E390524C806A700DC5196 = {
 			isa = PBXGroup;
 			children = (
 				8D8E391024C806A700DC5196 /* storekitTest2 */,
 				8D8E390F24C806A700DC5196 /* Products */,
+				8D2C4EBC24CA887000F22BDC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

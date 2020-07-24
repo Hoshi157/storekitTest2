@@ -56,6 +56,14 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate(priceTextConstraints)
         
+        displayToTextOfPrice()
+        
+    }
+    
+    @objc func purchaseButtonPressed() {
+        
+        purchase(productIdentifier: productIdentifiers.first!)
+        
     }
     
     func displayToTextOfPrice() {
@@ -67,15 +75,101 @@ class ViewController: UIViewController {
             
             for product in products {
                 let priceString = product.localizedPrice
-                print(priceString!)
+                DispatchQueue.main.async {
+                    self?.priceText.text = priceString
+                }
             }
         })
     }
     
-    @objc func purchaseButtonPressed() {
+    private func purchase(productIdentifier: String) {
         
+        // デリゲート設定
+        PurchaseManager.shared.delegate = self
+        
+        // プロダクト情報を取得
+        ProductManager.request(productIdentifier: productIdentifier, completion: { [weak self] (product: SKProduct?, error: Error?) in
+            guard error == nil, let product = product else {
+                self?.purchaseManager(PurchaseManager.shared, didFaidTransactinWithError: error)
+                return
+            }
+            
+            // 課金処理開始
+            PurchaseManager.shared.purchase(product: product)
+        })
+    }
+    
+    private func startRestore() {
+        // デリゲート設定
+        PurchaseManager.shared.delegate = self
+        
+        // リストア開始
+        PurchaseManager.shared.restore()
     }
 
 
+}
+
+extension ViewController: PurchaseManagerDelegate {
+    
+    func purchaseManager(_ purchaseManager: PurchaseManager, didFinishTransaction transaction: SKPaymentTransaction, decitionHandler: (Bool) -> Void) {
+        
+        let ac = UIAlertController(title: "purchase finish", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(action)
+        
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
+        
+        
+        
+        
+        decitionHandler(true)
+    }
+    
+    func purchaseManager(_ purchaseManager: PurchaseManager, didFinishUntreatedTransaction transaction: SKPaymentTransaction, decitionHandler: (Bool) -> Void) {
+        let ac = UIAlertController(title: "purchase untreated finish", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(action)
+        
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
+        
+        decitionHandler(true)
+    }
+    
+    func purchaseManager(_ purchaseManager: PurchaseManager, didFaidTransactinWithError error: Error?) {
+        let ac = UIAlertController(title: "error", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(action)
+        
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
+    }
+    
+    func purchaseManagerDidFinishRestore(_ purchaseManager: PurchaseManager) {
+        
+        let ac = UIAlertController(title: "did finish restore", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(action)
+        
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
+    }
+    
+    func purchaseManagerDidDiferred(_ purchaseManager: PurchaseManager) {
+        let ac = UIAlertController(title: "did diferred", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(action)
+        
+        DispatchQueue.main.async {
+            self.present(ac, animated: true)
+        }
+    }
+    
 }
 
